@@ -62,4 +62,4 @@ The URL to your discord webhook
 
 PROXMOX_API_URL\
 The URL to your Proxmox node's API endpoint. For example:b\
-https://192.168.0.10:8006/api2/json/nodes
+`https://192.168.0.10:8006/api2/json/nodes`
