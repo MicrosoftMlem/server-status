@@ -44,13 +44,15 @@ std::string sendGet(std::string url, cpr::Header header, bool verifySSL) {
   if (r.status_code != 200) {
     return "";
   }
-
+  
   return r.text;
 }
 
 int main() {
-  std::cout << "Server Status staprted...\n";
+  std::cout << "Server Status started...\n";
 
+
+  //ENV VAR STUFF
   const char *secret_val = std::getenv("PROXMOX_SECRET");
   if (secret_val == nullptr) {
     std::cerr << "Run without PROXMOX_SECRET environment variable set.\n";
@@ -75,7 +77,7 @@ int main() {
     return -1;
   }
   discord_webhook_url = discord_url;
-
+  
   const char *proxmox_url = std::getenv("PROXMOX_API_URL");
   if (proxmox_url == nullptr) {
     std::cerr << "Run without PROXMOX_API_URL environment variable set\n";
@@ -83,16 +85,19 @@ int main() {
   }
   proxmox_node_api_url = proxmox_url;
 
+  //END OF ENV VAR STUFF
   
-  std::string text = sendGet("proxmox_node_api_url", cpr::Header{{"Authorization", auth}}, false);
+  std::string text = sendGet(proxmox_node_api_url, cpr::Header{{"Authorization", auth}}, false);
 
   if (text == "") {
     std::cout << "GET responded with status_code not 200\n";
 
     json j = {{"content", getTimestamp() + "\nERROR with GET. responded with non-200 status."}};
-    cpr::Response r = sendPost("discord_webhook_url", j);
+    cpr::Response r = sendPost(discord_webhook_url, j);
     std::cout << "Response with status code: " << r.status_code << "\n";
-    
+    if (r.error) {
+      std::cerr << "Request failed with error: " << r.error.message << "\n";
+    }
   } else {
     bool bad_status = false;
     json response = json::parse(text);
@@ -123,7 +128,7 @@ int main() {
       
       std::string payload = getTimestamp() + "\nERROR with status. Response:\n" + string_responses;
       json j = {{"content", payload}};
-      cpr::Response r = sendPost("discord_webhook_url", j);
+      cpr::Response r = sendPost(discord_webhook_url, j);
       std::cout << "Response with status code: " << r.status_code << "\n";
     }
   }
