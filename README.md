@@ -5,7 +5,7 @@ Requires the following environment variables to be set:
 PROXMOX_SECRET\
 The API Token secret for your proxmox token.
 
-AUTH_PREFIX
+AUTH_PREFIX\
 The prefix to the secret that creates the full Authorization header. For example:\
 PVEAPIToken=user@realm!name=
 
