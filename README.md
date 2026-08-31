@@ -1,13 +1,13 @@
 # server-status
 
-A C++ program that checks to see that Proxmox nodes are running, and sends alerts to a discord webhook.\
+A C++ program that checks to see that Proxmox nodes are running, and sends alerts to a discord webhook.
 
 The program runs on a systemd timer which can be configured to run every 20 minutes or similar.
-It sends a timestamped alert to the provided Discord webhook url, showing the status and uptime of your Proxmox nodes.\
+It sends a timestamped alert to the provided Discord webhook url, showing the status and uptime of your Proxmox nodes.
 
 ---
 
-## Dependencies\
+## Dependencies
 
 - [nlohmann/json](https://github.com/nlohmann/json)
 - [cpr](https://github.com/libcpr/cpr)
@@ -18,11 +18,11 @@ It sends a timestamped alert to the provided Discord webhook url, showing the st
 
 ### Arch
 
-Install `nlohmann/json` from the official repos:\
+Install `nlohmann/json` from the official repos:
 ```bash
 sudo pacman -S nlohmann/json
 ```
-cpr comes from the AUR:\
+cpr comes from the AUR:
 ```bash
 yay -S cpr
 ```
@@ -38,7 +38,7 @@ cmake --build build
 
 ## Running
 
-To run a single check, immediately:\
+To run a single check, immediately:
 
 ```bash
 ./build/server-status
@@ -61,5 +61,5 @@ DISCORD_WEBHOOK\
 The URL to your discord webhook
 
 PROXMOX_API_URL\
-The URL to your Proxmox node's API endpoint. For example:b\
+The URL to your Proxmox node's API endpoint. For example:\
 `https://192.168.0.10:8006/api2/json/nodes`
